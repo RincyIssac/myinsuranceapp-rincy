@@ -34,7 +34,6 @@ pipeline {
                 //sh 'docker build -t hackathonimages.azurecr.io/myinsuranceapprincy:v8 -f Dockerfile .'
             }
         } 
-
         stage('Publish image') {
             steps {
                 echo 'pushing image..'
@@ -44,15 +43,15 @@ pipeline {
                 //withDockerRegistry([ credentialsId: "azure-credentials1", url: "https://hackathonimages.azurecr.io" ]) {
                 //sh 'docker push hackathonimages.azurecr.io/myinsuranceapprincy:v8'
                 //}
-            }
+        }
         /*stage('Apply Kubernetes ') {
             steps {
                 echo 'Apply Kubernetes..'
                 //withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'https://emerging-fowl-k8s-f8325088.hcp.eastasia.azmk8s.io']) {
                     withKubeConfig([credentialsId: 'k8-credentials']) {
-                    sh 'kubectl apply -f kubernetes/rincy-dp.yaml'
-                    sh 'kubectl apply -f kubernetes/rincy-sv.yaml'
-                    sh 'kubectl port-forward service/rincyapp-service 5000:5000 &'
+                    sh 'kubectl apply -f kubernetes/myinsurance-dp.yaml'
+                    sh 'kubectl apply -f kubernetes/myinsurance-svc.yaml'
+                    sh 'kubectl port-forward service/rincyapp-service 5050:5000 &'
                     sleep 5 // give 5 secs to stablish the port forward
                 }
             }
@@ -64,7 +63,7 @@ pipeline {
                 //sh 'pkill -f "port-forward"'
             }
         }*/
-        }
+    }
     post {
         always {
             echo 'post do this always...'
