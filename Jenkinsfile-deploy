@@ -21,12 +21,12 @@ pipeline {
                 sh 'python3 -m unittest discover -s tests/unit -v'
             }
         }        
-        /*stage('Acceptance tests') {
+        stage('Acceptance tests') {
             steps {
                 echo 'Acceptance..'
                 sh 'python3 -m unittest discover -s tests/acceptance-flask -v'
             }
-        }  */   
+        }   
         stage('Create image') {
             steps {
                 echo 'creating image...'
