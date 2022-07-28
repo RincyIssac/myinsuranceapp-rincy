@@ -30,7 +30,7 @@ pipeline {
         stage('Create image') {
             steps {
                 echo 'creating image...'
-                #sh 'docker build -t myinsuranceapprincy:v8 -f Dockerfile .'
+                //sh 'docker build -t myinsuranceapprincy:v8 -f Dockerfile .'
                 sh 'docker build -t hackathonimages.azurecr.io/myinsuranceapprincy:v8 Dockerfile .'
             }
         } 
@@ -38,9 +38,9 @@ pipeline {
         stage('Publish image') {
             steps {
                 echo 'pushing image..'
-                #withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
-                #sh 'docker push rincyissac/rincyapp:v2'
-                #}
+                //withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+                //sh 'docker push rincyissac/rincyapp:v2'
+                //}
                 withDockerRegistry([ credentialsId: "azure-credentials1", url: "https://hackathonimages.azurecr.io" ]) {
                 sh 'docker push hackathonimages.azurecr.io/myinsuranceapprincy:v8'
                 }
