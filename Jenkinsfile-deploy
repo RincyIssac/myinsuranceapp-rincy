@@ -49,8 +49,8 @@ pipeline {
         stage('Apply Kubernetes ') {
             steps {
                 echo 'Apply Kubernetes..'
-                //withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'https://emerging-fowl-k8s-f8325088.hcp.eastasia.azmk8s.io']) {
-                withKubeConfig([credentialsId: 'k8-credentials']) {
+                withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'rapid-emu-k8s-c9873dc9.hcp.eastasia.azmk8s.io']) {
+                //withKubeConfig([credentialsId: 'k8-credentials']) {
                 sh 'kubectl apply -f kubernetes/myinsurance-dp-az.yaml'
                 sh 'kubectl apply -f kubernetes/myinsurance-svc-az.yaml'
                 sh 'kubectl port-forward service/myinsuranceapprincy-service 5050:5000 &'
