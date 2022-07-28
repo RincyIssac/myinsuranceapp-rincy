@@ -5,7 +5,7 @@ metadata:
   labels:
     app: myinsuranceapprincy
 spec:
-  replicas: 1
+  replicas: 8
   selector:
     matchLabels:
       app: myinsuranceapprincy
