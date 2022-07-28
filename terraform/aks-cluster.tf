@@ -5,7 +5,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "default" {
-  name     = akshackathonRincy
+  name     = akshackathonRincy-rg
   location = "eastasia"
 
   tags = {
