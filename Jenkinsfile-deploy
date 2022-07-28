@@ -30,7 +30,7 @@ pipeline {
         stage('Create image') {
             steps {
                 echo 'creating image...'
-                sh 'docker build -t rincyissac/myinsuranceapprincy:v8 -f Dockerfile .'
+                sh 'docker build -t myinsuranceapprincy:v8 -f Dockerfile .'
                 //sh 'docker build -t hackathonimages.azurecr.io/myinsuranceapprincy:v8 -f Dockerfile .'
             }
         } 
