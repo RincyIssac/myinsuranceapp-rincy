@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: myinsuranceapprincy-service
+  labels:
+    app: myinsuranceapprincy
+spec:
+  selector:
+    app: myinsuranceapprincy
+  type: NodePort
+  ports:
+  - port: 5000
+    targetPort: http
+    nodePort: 31113 #30000-32767
+    protocol: TCP
+    name: http
