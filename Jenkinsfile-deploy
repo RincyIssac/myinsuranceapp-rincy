@@ -50,7 +50,7 @@ pipeline {
             steps {
                 echo 'Apply Kubernetes..'
                 //withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'https://emerging-fowl-k8s-f8325088.hcp.eastasia.azmk8s.io']) {
-                withKubeConfig([credentialsId: 'k8-credentials', contextName: 'minikube']) {
+                withKubeConfig([credentialsId: 'k8-credentials']) {
                 sh 'kubectl apply -f kubernetes/myinsurance-dp.yaml'
                 sh 'kubectl apply -f kubernetes/myinsurance-svc.yaml'
                 sh 'kubectl port-forward service/rincyapp-service 5050:5000 &'

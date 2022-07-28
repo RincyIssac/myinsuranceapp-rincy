@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: myinsuranceapprincy
-        image: myinsuranceapprincy:v8
+        image: rincyissac/myinsuranceapprincy:v8
         ports:
         - name: http
           containerPort: 5000
