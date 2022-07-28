@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'develop',url: 'https://github.com/RincyIssac/myinsuranceapp-rincy.git'
+                git branch: 'deploy',url: 'https://github.com/RincyIssac/myinsuranceapp-rincy.git'
 	        }
         }        
         stage('Requirements') {
@@ -30,20 +30,20 @@ pipeline {
         stage('Create image') {
             steps {
                 echo 'creating image...'
-                //sh 'docker build -t rincyissac/myinsuranceapprincy:v8 -f Dockerfile .'
-                sh 'docker build -t hackathonimages.azurecr.io/myinsuranceapprincy:v8 -f Dockerfile .'
+                sh 'docker build -t myinsuranceapprincy:v8 -f Dockerfile .'
+                //sh 'docker build -t hackathonimages.azurecr.io/myinsuranceapprincy:v8 -f Dockerfile .'
             }
         } 
 
         stage('Publish image') {
             steps {
                 echo 'pushing image..'
-                //withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
-                //sh 'docker push rincyissac/myinsuranceapprincy:v8'
-                //}
-                withDockerRegistry([ credentialsId: "azure-credentials1", url: "https://hackathonimages.azurecr.io" ]) {
-                sh 'docker push hackathonimages.azurecr.io/myinsuranceapprincy:v8'
+                withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+                sh 'docker push imyinsuranceapprincy:v8'
                 }
+                //withDockerRegistry([ credentialsId: "azure-credentials1", url: "https://hackathonimages.azurecr.io" ]) {
+                //sh 'docker push hackathonimages.azurecr.io/myinsuranceapprincy:v8'
+                //}
             }
         }
     }
