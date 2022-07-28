@@ -21,12 +21,12 @@ pipeline {
                 sh 'python3 -m unittest discover -s tests/unit -v'
             }
         }        
-        stage('Acceptance tests') {
+        /*stage('Acceptance tests') {
             steps {
                 echo 'Acceptance..'
                 sh 'python3 -m unittest discover -s tests/acceptance-flask -v'
             }
-        }     
+        }  */   
         stage('Create image') {
             steps {
                 echo 'creating image...'
@@ -49,7 +49,7 @@ pipeline {
         stage('Apply Kubernetes ') {
             steps {
                 echo 'Apply Kubernetes..'
-                withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'rapid-emu-k8s-c9873dc9.hcp.eastasia.azmk8s.io']) {
+                withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'https://rapid-emu-k8s-c9873dc9.hcp.eastasia.azmk8s.io']) {
                 //withKubeConfig([credentialsId: 'k8-credentials']) {
                 sh 'kubectl apply -f kubernetes/myinsurance-dp-az.yaml'
                 sh 'kubectl apply -f kubernetes/myinsurance-svc-az.yaml'
