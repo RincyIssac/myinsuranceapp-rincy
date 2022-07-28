@@ -5,7 +5,7 @@ metadata:
   labels:
     app: myinsuranceapprincy
 spec:
-  replicas: 8
+  replicas: 1
   selector:
     matchLabels:
       app: myinsuranceapprincy
@@ -15,10 +15,10 @@ spec:
         app: myinsuranceapprincy
     spec:
       imagePullSecrets:
-      - name: acr-secret
+      - name: acr-secret 
       containers:
       - name: myinsuranceapprincy
-        image:  hackathonimages.azurecr.io/myinsuranceapprincy:v8
+        image: hackathonimages.azurecr.io/myinsuranceapprincy:v8
         ports:
         - name: http
           containerPort: 5000
