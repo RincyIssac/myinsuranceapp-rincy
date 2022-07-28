@@ -1,0 +1,84 @@
+pipeline {
+    agent any
+    
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'deploy',url: 'https://github.com/RincyIssac/myinsuranceapp-rincy.git'
+            }
+        }        
+        stage('Requirements') {
+            steps {
+                echo 'Installing dependencies...'
+                sh 'pip3 install -r requirements.txt'
+                sh 'python3 project/init/init_db.py'
+            }
+        }
+        stage('Unit/Integration tests') {
+            steps {
+                echo 'Unit/Integration...'
+                sh 'python3 -m unittest discover -s tests/unit -v'
+            }
+        }        
+        stage('Acceptance tests') {
+            steps {
+                echo 'Acceptance...'
+                sh 'python3 -m unittest discover -s tests/acceptance-flask -v'
+            }
+        }     
+        stage('Create image') {
+            steps {
+                echo 'creating image...'
+                //sh 'docker build -t myinsuranceapprincy:v8 -f Dockerfile .'
+                sh 'docker build -t hackathonimages.azurecr.io/myinsuranceapprincy:v8 -f Dockerfile .'
+            }
+        } 
+
+        stage('Publish image') {
+            steps {
+                echo 'pushing image..'
+                //withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+                //sh 'docker push myinsuranceapprincy:v8'
+                //}
+                withDockerRegistry([ credentialsId: "azure-credentials1", url: "https://hackathonimages.azurecr.io" ]) {
+                sh 'docker push hackathonimages.azurecr.io/myinsuranceapprincy:v8'
+                }
+        }
+        /*stage('Apply Kubernetes ') {
+            steps {
+                echo 'Apply Kubernetes..'
+                //withKubeConfig([credentialsId: 'k8-credentials',serverUrl:'https://emerging-fowl-k8s-f8325088.hcp.eastasia.azmk8s.io']) {
+                    withKubeConfig([credentialsId: 'k8-credentials']) {
+                    sh 'kubectl apply -f kubernetes/rincy-dp.yaml'
+                    sh 'kubectl apply -f kubernetes/rincy-sv.yaml'
+                    sh 'kubectl port-forward service/rincyapp-service 5000:5000 &'
+                    sleep 5 // give 5 secs to stablish the port forward
+                }
+            }
+        }
+        stage('External acceptance tests') {
+            steps{
+                echo 'External acceptance tests...'
+                sh 'python3 -m unittest discover -s tests/acceptance-request -v'
+                //sh 'pkill -f "port-forward"'
+            }
+        }*/
+    }
+    post {
+        always {
+            echo 'post do this always...'
+        }
+        success{
+            echo 'post do this when success...'
+        }
+        failure {
+            echo 'post do this when failure...'
+        }
+        cleanup{
+            echo 'post do this when cleanup...'
+            //sh 'pkill -f "port-forward"'
+            deleteDir()
+        }
+    }
+}
