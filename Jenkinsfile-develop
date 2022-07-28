@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+    
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'develop',url: 'https://github.com/RincyIssac/myinsuranceapp-rincy.git'
+	        }
+        }        
+        stage('Requirements') {
+            steps {
+                echo 'Installing dependencies...'
+                sh 'pip3 install -r requirements.txt'
+                sh 'python3 project/init/init_db.py'
+            }
+        }
+        stage('Unit/Integration tests') {
+            steps {
+                echo 'Unit/Integration...'
+                sh 'python3 -m unittest discover -s tests/unit -v'
+            }
+        }        
+        stage('Acceptance tests') {
+            steps {
+                echo 'Acceptance..'
+                sh 'python3 -m unittest discover -s tests/acceptance-flask -v'
+            }
+        }     
+        stage('Create image') {
+            steps {
+                echo 'creating image...'
+                #sh 'docker build -t myinsuranceapprincy:v8 -f Dockerfile .'
+                sh 'docker build -t hackathonimages.azurecr.io/myinsuranceapprincy:v8 Dockerfile .'
+            }
+        } 
+
+        stage('Publish image') {
+            steps {
+                echo 'pushing image..'
+                #withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+                #sh 'docker push rincyissac/rincyapp:v2'
+                #}
+                withDockerRegistry([ credentialsId: "azure-credentials1", url: "https://hackathonimages.azurecr.io" ]) {
+                sh 'docker push hackathonimages.azurecr.io/myinsuranceapprincy:v8'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo 'post do this always..'
+        }
+        success{
+            echo 'post do this when success...'
+        }
+        failure {
+            echo 'post do this when failure...'
+        }
+        cleanup{
+            echo 'post do this when cleanup...'
+            deleteDir()
+        }
+    }
+}
