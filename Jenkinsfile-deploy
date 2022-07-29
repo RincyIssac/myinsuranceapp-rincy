@@ -64,7 +64,7 @@ pipeline {
                 //sh 'python3 -m unittest discover -s tests/acceptance-request -v'
                 //sh 'pkill -f "port-forward"'
             //}
-        }
+        //}
     }
     post {
         always {
