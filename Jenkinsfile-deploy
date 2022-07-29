@@ -58,12 +58,12 @@ pipeline {
                 }
             }
         }
-        /*stage('External acceptance tests') {
-            steps {
-                echo 'External acceptance tests...'
-                sh 'python3 -m unittest discover -s tests/acceptance-request -v'
+        //stage('External acceptance tests') {
+            //steps {
+                //echo 'External acceptance tests...'
+                //sh 'python3 -m unittest discover -s tests/acceptance-request -v'
                 //sh 'pkill -f "port-forward"'
-            }*\
+            //}
         }
     }
     post {
