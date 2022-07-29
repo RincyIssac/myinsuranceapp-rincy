@@ -58,7 +58,6 @@ pipeline {
                 }
             }
         }
-    }
         stage('External acceptance tests') {
             steps {
                 echo 'External acceptance tests...'
@@ -66,7 +65,7 @@ pipeline {
                 //sh 'pkill -f "port-forward"'
             }
         }
-
+    }
     post {
         always {
             echo 'post do this always...'
